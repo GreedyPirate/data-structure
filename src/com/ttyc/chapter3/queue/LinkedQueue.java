@@ -29,6 +29,7 @@ public class LinkedQueue<T> {
     public void add(T t) {
         Node<T> node = new Node<>(t);
         rear.next = node;
+        rear = node;
     }
 
     public T poll() {

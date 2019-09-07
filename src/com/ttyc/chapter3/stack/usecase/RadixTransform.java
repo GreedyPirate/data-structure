@@ -1,4 +1,4 @@
-package com.ttyc.chapter3.usecase;
+package com.ttyc.chapter3.stack.usecase;
 
 import com.ttyc.chapter3.stack.SequenceStack;
 

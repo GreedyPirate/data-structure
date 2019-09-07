@@ -186,6 +186,7 @@ public class SingleLinkedList<E> {
         return -1;
     }
 
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("elements are: ");
@@ -196,5 +197,24 @@ public class SingleLinkedList<E> {
             node = node.next;
         }
         return builder.deleteCharAt(builder.length() - 1).toString();
+    }
+
+    public boolean isPalindromeNumber() {
+        Node<E> slow, fast;
+        slow = fast = head;
+        // fast成为尾结点才停
+        while (fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node<E> middleNextOne = slow.next;
+        while (middleNextOne.next != null) {
+            middleNextOne = middleNextOne.next;
+            middleNextOne.next = slow.next;
+            slow.next = middleNextOne;
+        }
+
+        return true;
     }
 }
