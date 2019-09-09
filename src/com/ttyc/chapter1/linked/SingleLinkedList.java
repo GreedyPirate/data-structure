@@ -200,18 +200,62 @@ public class SingleLinkedList<E> {
     }
 
     public boolean isPalindromeNumber() {
+        // 快慢指针找中间节点
         Node<E> slow, fast;
         slow = fast = head;
         // fast成为尾结点才停
-        while (fast.next != null) {
+        while (fast != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
 
+        // 链表反转
         Node<E> middleNextOne = slow.next;
+        Node<E> pre = slow.next;
+        Node<E> next = pre.next;
+        while (pre != null) {
+            if(pre == middleNextOne) {
+                pre.next = null;
+            }else {
+                pre.next = slow.next;
+            }
+            slow.next = pre;
 
+            pre = next;
+            // pre为最后一个元素时，pre.next为null， next为null, null.next报错
+            next = next == null ? null : next.next;
+        }
 
-        return true;
+        // 比较
+        Node<E> next0 = head.next;
+        Node<E> next1 = slow.next;
+        boolean result = true;
+        while (next0 != slow && next1 != null) {
+            if(!next0.e.equals(next1.e)) {
+                result = false;
+                break;
+            }
+            next0 = next0.next;
+            next1 = next1.next;
+        }
+
+        // 还原链表
+        middleNextOne = slow.next;
+        pre = slow.next;
+        next = pre.next;
+        while (pre != null) {
+            if(pre == middleNextOne) {
+                pre.next = null;
+            }else {
+                pre.next = slow.next;
+            }
+            slow.next = pre;
+
+            pre = next;
+            // pre为最后一个元素时，pre.next为null， next为null, null.next报错
+            next = next == null ? null : next.next;
+        }
+        return result;
     }
 
     public SingleLinkedList<E> reverse() {
