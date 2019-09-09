@@ -6,7 +6,7 @@ import java.util.Arrays;
  * 使用顺序表实现的循环队列
  * @param <T>
  */
-public class CycleQueue<T> {
+public class CycleSequenceQueue<T> {
 
     private Object[] elements;
 
@@ -18,11 +18,11 @@ public class CycleQueue<T> {
 
     private static final int DEFAULT_CAPACITY = 15;
 
-    public CycleQueue() {
+    public CycleSequenceQueue() {
         this(DEFAULT_CAPACITY);
     }
 
-    public CycleQueue(int capacity) {
+    public CycleSequenceQueue(int capacity) {
         elements = new Object[capacity];
     }
 

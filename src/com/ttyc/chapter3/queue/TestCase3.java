@@ -1,15 +1,15 @@
 package com.ttyc.chapter3.queue;
 
-public class TestCase {
+public class TestCase3 {
+
     public static void main(String[] args) {
-        CycleSequenceQueue<Integer> queue = new CycleSequenceQueue<>(5);
+        CycleLinkedListQueue<Integer> queue = new CycleLinkedListQueue<>();
         queue.add(2);
         queue.add(4);
         queue.add(6);
         queue.add(8);
-//        queue.add(10);
 
-        System.out.println(queue);
+        System.out.println("queue = " + queue);
 
         Integer i1 = queue.poll();
         System.out.println("i1 = " + i1);
