@@ -209,12 +209,36 @@ public class SingleLinkedList<E> {
         }
 
         Node<E> middleNextOne = slow.next;
-        while (middleNextOne.next != null) {
-            middleNextOne = middleNextOne.next;
-            middleNextOne.next = slow.next;
-            slow.next = middleNextOne;
-        }
+
 
         return true;
+    }
+
+    public SingleLinkedList<E> reverse() {
+        SingleLinkedList<E> newList = new SingleLinkedList();
+        Node<E> node = head.next;
+        while (node != null) {
+            newList.headInsert(node.e);
+            node = node.next;
+        }
+        return newList;
+    }
+
+    public void reverse0() {
+        Node<E> first = head.next;
+        Node<E> pre = head.next;
+        Node<E> next = pre.next;
+        while (pre != null) {
+            if(pre == first) {
+                pre.next = null;
+            }else {
+                pre.next = head.next;
+            }
+            head.next = pre;
+
+            pre = next;
+            // pre为最后一个元素时，pre.next为null， next为null, null.next报错
+            next = next == null ? null : next.next;
+        }
     }
 }

@@ -2,6 +2,10 @@ package com.ttyc.chapter1.linked.usercase;
 
 import com.ttyc.chapter1.linked.SingleLinkedList;
 
+/**
+ * 判断回文
+ * TODO 链表反转
+ */
 public class PalindromeNumber {
 
     public static void main(String[] args) {
