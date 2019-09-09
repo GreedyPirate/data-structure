@@ -13,7 +13,7 @@ public class Josephus {
 
 
     static {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 41; i++) {
             list.tailInsert(i+1);
         }
     }
@@ -23,5 +23,6 @@ public class Josephus {
         list.traversals(action);
 
         list.josephus(3);
+        System.out.println("total killed :" + list.total);
     }
 }

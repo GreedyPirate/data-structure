@@ -67,24 +67,34 @@ public class CycleSingleLinkedList<E> {
         }
     }
 
+    public static int total;
+
     public void josephus(int step) {
         if(isEmpty()) {
             return;
         }
         Node<E> pre = head;
         Node<E> node = head.next;
+        Node<E> next = node.next;
         int counter = 1;
         while (size > 1) {
             if(counter == step) {
-                pre.next = node.next;
-                node = node.next;
-                counter = 0;
+                pre.next = next;
+                node.next = null;
                 System.out.println(node.e + " is killed");
-                // 从被杀的下一个人开始，pre保存了下一个人
+                pre = next;
+                node = next.next;
+                next = node.next; // next.next.next
+                counter = 1;
                 size --;
+                total++;
             }
             node = node.next;
             pre = pre.next;
+            next = next.next;
+            if(node == head) {
+                continue;
+            }
             counter++;
         }
     }
