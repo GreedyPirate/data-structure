@@ -34,6 +34,10 @@ public class SkipList {
     private int height;
 
     /**
+     * 插入时向上层再次插入的概率
+     */
+    private static final double PROBABILITY = 0.5;
+    /**
      * 左右边界值
      */
     private static int MIN = Integer.MIN_VALUE;
