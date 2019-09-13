@@ -125,9 +125,9 @@ public class SkipList {
      * @param data
      */
     public void insert(int data) {
-        /*if(contains(data)) {
+        if(contains(data)) {
             return;
-        }*/
+        }
 
         int level = randomLevel();
         Node newNode = new Node(data, level);
@@ -151,7 +151,7 @@ public class SkipList {
 
     public boolean contains(int data) {
         Node node = find(data);
-        return node != null && node.data != null && node != head;
+        return node != null && node.data != null && data == node.data;
     }
 
     private class NodeLocation {
@@ -191,9 +191,9 @@ public class SkipList {
             Node current = head.forwards[i];
             Node next = current.boyNextDoor(i);
 
-            StringBuilder builder = new StringBuilder();
+             StringBuilder builder = new StringBuilder();
             if(current.data != head.forwards[0].data) {
-                builder.append(whiteSpaceHelper(head.forwards[0].data, current.data));
+                builder.append(whiteSpaceHelper(current.data));
             }
             builder.append(current.data);
             while (next != null) {
@@ -213,14 +213,32 @@ public class SkipList {
             }
             current = current.boyNextDoor(0);
         }
-        int count = 0;
         Node node = current.boyNextDoor(0);
+        int count = 0;
         while (node != null) {
             count++;
             if(node.data == next) {
                 break;
             }
-            count = node.data.toString().length();
+            count += node.data.toString().length();
+            node = node.boyNextDoor(0);
+        }
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            builder.append(" ");
+        }
+        return builder.toString();
+    }
+
+    private String whiteSpaceHelper(int next){
+        Node node = head.forwards[0];
+        int count = 0;
+        while(node != null) {
+            if(node.data == next) {
+                break;
+            }
+            count += node.data.toString().length();
+            count++;
             node = node.boyNextDoor(0);
         }
         StringBuilder builder = new StringBuilder();
@@ -246,12 +264,12 @@ public class SkipList {
         skipList.insert(54);
         skipList.insert(14);
         skipList.insert(1010);
-        skipList.insert(102);
         skipList.insert(23);
         skipList.insert(8);
-        skipList.insert(325);*/
-
-        for (int i = 0; i < 20; i++) {
+        skipList.insert(325);
+        skipList.find(325);
+        */
+        for (int i = 0; i < 30; i++) {
             int number = skipList.random.nextInt(1000);
             skipList.insert(number);
         }
