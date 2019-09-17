@@ -1,7 +1,5 @@
-package com.ttyc.chapter1.linked.usercase;
+package com.ttyc.algorithm;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -152,37 +150,6 @@ public class SkipList {
     public boolean contains(int data) {
         Node node = find(data);
         return node != null && node.data != null && data == node.data;
-    }
-
-    private class NodeLocation {
-
-        private int index;
-
-        private int length;
-
-        private NodeLocation(int index, int length) {
-            this.index = index;
-            this.length = length;
-        }
-
-
-    }
-
-    public NodeLocation of(int index, int length) {
-        NodeLocation r = new NodeLocation(index, length);
-        return r;
-    }
-
-    @Override
-    public String toString() {
-        Map<Integer, NodeLocation> indexMap = new HashMap<>(size);
-        Node current = head.boyNextDoor(0);
-        int index = 1;
-        while (current != null) {
-            indexMap.put(current.data, of(index++, String.valueOf(current.data).length()));
-            current = current.boyNextDoor(0);
-        }
-        return "";
     }
 
     public void easyPrint() {
