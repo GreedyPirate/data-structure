@@ -12,11 +12,7 @@ public class TimeWheel {
 
     private int currentTime;
 
-    private long startTime;
-
     private int wheelSize;
-
-    private TimeUnit unit;
 
     private int interval;
 
@@ -25,31 +21,19 @@ public class TimeWheel {
      */
     private TimeWheel overflowWheel;
 
-    public TimeWheel(int wheelSize, int tickMs, long startTime) {
+    public TimeWheel(int wheelSize, int tickMs) {
         this.tickMs = tickMs;
         this.wheelSize = wheelSize;
-        queue = new CycleSequenceQueue(wheelSize);
         interval = wheelSize * tickMs;
+        queue = new CycleSequenceQueue(wheelSize);
     }
 
 
     public void createParent(int wheelSize) {
-        overflowWheel = new TimeWheel(wheelSize, interval, currentTime);
+        overflowWheel = new TimeWheel(wheelSize, interval);
     }
 
     public void addTask(int delay) {
-    }
-
-    public void start() {
-        Thread pusher = new Thread(() -> {
-            for (; ; ) {
-                try {
-                    currentTime++;
-                    unit.sleep(1);
-                } catch (InterruptedException e) {
-                }
-            }
-        });
     }
 
     private void increUpper() {

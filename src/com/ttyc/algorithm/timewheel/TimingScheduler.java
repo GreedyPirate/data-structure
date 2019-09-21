@@ -12,17 +12,11 @@ public class TimingScheduler {
      */
     private TimeWheel timeWheel;
 
-    private static final int WHEEL_SIZE = 60;
 
     public TimingScheduler() {
-        timeWheel = new TimeWheel(WHEEL_SIZE,1, TimeUnit.NANOSECONDS.toMillis(System.nanoTime()));
     }
 
     public boolean addTask(Task task) {
-/*        if(task.delayMills > WHEEL_SIZE) {
-            timeWheel.createParent(WHEEL_SIZE);
-        }*/
-        TaskEntry taskEntry = new TaskEntry();
         return true;
     }
 }

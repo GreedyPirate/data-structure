@@ -5,16 +5,17 @@ package com.ttyc.algorithm.timewheel;
  */
 public class TaskEntry {
 
-    private Task task;
+    protected Task task;
 
     protected TaskEntry next;
+
+    protected TaskEntry prev;
 
     public TaskEntry() {
     }
 
-    public TaskEntry(Task task, TaskEntry next) {
+    public TaskEntry(Task task) {
         this.task = task;
-        this.next = next;
     }
 
     public void executeInternal() {

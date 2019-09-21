@@ -30,11 +30,6 @@ public class SkipList {
      */
     private int height;
 
-    /**
-     * 插入时向上层再次插入的概率
-     */
-    private static final double PROBABILITY = 0.5;
-
     private Random random = new Random();
 
     /**
@@ -98,7 +93,7 @@ public class SkipList {
      * 无论是查找，插入还是删除，我们都要找到第一个比data大的节点
      * 这里根据层数level，获取每一层第一个比data大的节点的前一个节点
      *
-     * @return 如果当前节点的下一个节点比data大(不能包含等于)，返回当前节点
+     * @return 如果当前节点的下一个节点比data大(不能包含等于,多在纸上画)，返回当前节点
      * 这个当前节点就可以用于增加，删除节点
      */
     private Node findFirstGreater(int data, Node current, int level) {
