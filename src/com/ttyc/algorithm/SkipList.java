@@ -30,6 +30,9 @@ public class SkipList {
      */
     private int height;
 
+    /**
+     * 用于随机节点所在层数
+     */
     private Random random = new Random();
 
     /**
@@ -171,7 +174,7 @@ public class SkipList {
                 // 双链表删除
                 Node previous = current.previous(level);
                 Node nextDoor = current.boyNextDoor(level);
-//                System.out.println(previous.data + "-->" + current.data + "-->" + (nextDoor == null ? "" : nextDoor.data));
+                System.out.println(previous.data + "-->" + current.data + "-->" + (nextDoor == null ? "" : nextDoor.data));
 
                 previous.forwards[level] = nextDoor;
                 if (nextDoor != null) {
@@ -277,7 +280,7 @@ public class SkipList {
         skipList.insert(325);
         skipList.find(325);
         */
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 100; i++) {
             int number = skipList.random.nextInt(1000);
             skipList.insert(number);
             if (i == 15) {
@@ -289,6 +292,9 @@ public class SkipList {
 
         System.out.println("===================split line=================");
         skipList.easyPrint();
+
+        System.out.println(skipList.find(666));
+        System.out.println(skipList.find(1024));
     }
 
     public static void testMaxLevel(SkipList skipList) {
