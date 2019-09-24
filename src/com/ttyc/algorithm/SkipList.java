@@ -40,10 +40,13 @@ public class SkipList {
 
         private Node[] forwards;
 
+        private Node[] previous;
+
         public Node(Integer data, int level) {
             this.data = data;
             // ++level , level层有level+1个后继节点
             forwards = new Node[level];
+            previous = new Node[level];
         }
 
         @Override
@@ -58,12 +61,12 @@ public class SkipList {
             return forwards[level];
         }
 
-        public Integer getData() {
-            return data;
+        public Node previous(int level) {
+            return previous[level];
         }
 
-        public Node[] getForwards() {
-            return forwards;
+        public int data() {
+            return data;
         }
     }
 
@@ -80,7 +83,7 @@ public class SkipList {
      */
     public Node find(int data) {
         Node node = head;
-        int level = height -1;
+        int level = height - 1;
         // 必须找到最后一层
         while (level >= 0) {
             node = findFirstGreater(data, node, level);
@@ -90,11 +93,12 @@ public class SkipList {
     }
 
     /**
-     * 无论是查找，插入还是删除，我们都要找到第一个比data大的节点
+     * 无论是查找，插入，删除，我们都要找到第一个比data大的节点
      * 这里根据层数level，获取每一层第一个比data大的节点的前一个节点
-     * @param data 要查找的数据
+     *
+     * @param data    要查找的数据
      * @param current 查询的起始节点
-     * @param level 要查找的层数
+     * @param level   要查找的层数
      * @return 如果当前节点的下一个节点比data大(不能包含等于)，返回当前节点
      * 这个当前节点就可以用于增加，删除节点
      */
@@ -103,6 +107,7 @@ public class SkipList {
         // 现在的情况是current在后，nextDoor在前，两个同时往右走
         // 只要发现nextDoor比data大，ok，直接返回current，在上一层方法中让current走到下一层
         while (nextDoor != null) {
+            // 这个if写到while里也可以
             if (data < nextDoor.data) {
                 break;
             }
@@ -110,24 +115,23 @@ public class SkipList {
             current = nextDoor;
             nextDoor = current.boyNextDoor(level); // 或者nextDoor.boyNextDoor(level)
         }
-        // 需要判断current==null吗？ 不需要，当前层没有比data大的，但是下一层可能有
+        // 当前层没有比data大的，但是下一层可能有
         return current;
     }
 
     /**
      *
-     *
      * @param data
      */
     public void insert(int data) {
-        if(contains(data)) {
+        if (contains(data)) {
             return;
         }
 
         int level = randomLevel();
         Node newNode = new Node(data, level);
         // 必须先赋值，下面开始--了，或者用临时变量保存
-        if(level > height) {
+        if (level > height) {
             height = level;
         }
         level--;
@@ -135,13 +139,37 @@ public class SkipList {
         Node current = head;
         while (level >= 0) {
             current = findFirstGreater(data, head, level);
+            // 双链表插入
             Node nextDoor = current.boyNextDoor(level);
             newNode.forwards[level] = nextDoor;
+            newNode.previous[level] = current;
             current.forwards[level] = newNode;
+            if(nextDoor != null)
+                nextDoor.previous[level] = newNode;
             level--;
         }
         size++;
 
+    }
+
+    public void remove(int data) {
+        if(!contains(data)) {
+            return;
+        }
+        Node current = head;
+        int level = height - 1;
+        while (level >= 0) {
+            current = findFirstGreater(data, current, level);
+            if(current.data == data) {
+                Node previous = current.previous(level);
+                Node nextDoor = current.boyNextDoor(level);
+                previous.forwards[level] = nextDoor;
+                if(nextDoor != null) {
+                    nextDoor.previous[level] = previous;
+                }
+            }
+            level--;
+        }
     }
 
     public boolean contains(int data) {
@@ -150,13 +178,13 @@ public class SkipList {
     }
 
     public void easyPrint() {
-        for (int i = height-1; i >= 0; i--) {
+        for (int i = height - 1; i >= 0; i--) {
             System.out.print("level " + i + ": ");
             Node current = head.forwards[i];
             Node next = current.boyNextDoor(i);
 
-             StringBuilder builder = new StringBuilder();
-            if(current.data != head.forwards[0].data) {
+            StringBuilder builder = new StringBuilder();
+            if (current.data != head.forwards[0].data) {
                 builder.append(whiteSpaceHelper(current.data));
             }
             builder.append(current.data);
@@ -172,7 +200,7 @@ public class SkipList {
     private String whiteSpaceHelper(int pre, int next) {
         Node current = head.boyNextDoor(0);
         while (current != null) {
-            if(current.data == pre) {
+            if (current.data == pre) {
                 break;
             }
             current = current.boyNextDoor(0);
@@ -181,7 +209,7 @@ public class SkipList {
         int count = 0;
         while (node != null) {
             count++;
-            if(node.data == next) {
+            if (node.data == next) {
                 break;
             }
             count += node.data.toString().length();
@@ -194,11 +222,11 @@ public class SkipList {
         return builder.toString();
     }
 
-    private String whiteSpaceHelper(int next){
+    private String whiteSpaceHelper(int next) {
         Node node = head.forwards[0];
         int count = 0;
-        while(node != null) {
-            if(node.data == next) {
+        while (node != null) {
+            if (node.data == next) {
                 break;
             }
             count += node.data.toString().length();
@@ -236,8 +264,14 @@ public class SkipList {
         for (int i = 0; i < 30; i++) {
             int number = skipList.random.nextInt(1000);
             skipList.insert(number);
+            if (i == 15) {
+                skipList.insert(666);
+            }
         }
+        skipList.easyPrint();
+        skipList.remove(666);
 
+        System.out.println("===================split line=================");
         skipList.easyPrint();
     }
 
@@ -246,7 +280,7 @@ public class SkipList {
         while (true) {
             for (int i = 0; i < 1000000; i++) {
                 int level = skipList.randomLevel();
-                if(level > max)
+                if (level > max)
                     max = level;
             }
             System.out.println(max);
