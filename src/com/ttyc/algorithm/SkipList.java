@@ -40,6 +40,7 @@ public class SkipList {
 
         private Node[] forwards;
 
+        // 为删除等操作提供O(1)
         private Node[] previous;
 
         public Node(Integer data, int level) {
@@ -95,6 +96,7 @@ public class SkipList {
     /**
      * 无论是查找，插入，删除，我们都要找到第一个比data大的节点
      * 这里根据层数level，获取每一层第一个比data大的节点的前一个节点
+     * 假设data=5，数据为 2 3(5) 7, 第一个大于5的是7，则返回3(5)，该值<=5
      *
      * @param data    要查找的数据
      * @param current 查询的起始节点
@@ -120,8 +122,7 @@ public class SkipList {
     }
 
     /**
-     *
-     * @param data
+     * 插入
      */
     public void insert(int data) {
         if (contains(data)) {
@@ -138,13 +139,14 @@ public class SkipList {
         // 从上往下插入
         Node current = head;
         while (level >= 0) {
+            // 最关键的一行代码
             current = findFirstGreater(data, head, level);
             // 双链表插入
             Node nextDoor = current.boyNextDoor(level);
             newNode.forwards[level] = nextDoor;
             newNode.previous[level] = current;
             current.forwards[level] = newNode;
-            if(nextDoor != null)
+            if (nextDoor != null)
                 nextDoor.previous[level] = newNode;
             level--;
         }
@@ -152,22 +154,32 @@ public class SkipList {
 
     }
 
+    /**
+     * 删除，此时findFirstGreater返回的节点必须等于data，才能执行双链表删除操作
+     *
+     * @param data
+     */
     public void remove(int data) {
-        if(!contains(data)) {
+        if (!contains(data)) {
             return;
         }
         Node current = head;
         int level = height - 1;
         while (level >= 0) {
             current = findFirstGreater(data, current, level);
-            if(current.data == data) {
+            if (current != head && current.data == data) {
+                // 双链表删除
                 Node previous = current.previous(level);
                 Node nextDoor = current.boyNextDoor(level);
+//                System.out.println(previous.data + "-->" + current.data + "-->" + (nextDoor == null ? "" : nextDoor.data));
+
                 previous.forwards[level] = nextDoor;
-                if(nextDoor != null) {
+                if (nextDoor != null) {
                     nextDoor.previous[level] = previous;
                 }
+                size--;
             }
+            // 下一层
             level--;
         }
     }
@@ -248,6 +260,10 @@ public class SkipList {
             newLevel++;
         }
         return (newLevel < MAX_LEVEL) ? newLevel : MAX_LEVEL;
+    }
+
+    public int size() {
+        return size;
     }
 
     public static void main(String[] args) {
