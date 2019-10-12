@@ -9,5 +9,4 @@ package com.ttyc.chapter6.binary;
  */
 public class SequenceBinaryTree<T> {
 
-
 }

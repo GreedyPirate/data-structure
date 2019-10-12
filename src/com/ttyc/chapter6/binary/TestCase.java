@@ -9,9 +9,19 @@ public class TestCase {
 
         for (int i = 0; i < 10; i++) {
             int number = random.nextInt(100);
-            System.out.println("number = " + number);
             tree.insert(number);
         }
+        tree.insert(50);
+        System.out.println("has 50 = " + tree.contains(50));
         tree.travel();
+
+        tree = new BinarySearchTree();
+        System.out.println("===============");
+        for (int i = 0; i < 10; i++) {
+            int number = random.nextInt(100);
+            tree.insert0(number);
+        }
+        tree.travel();
+
     }
 }
