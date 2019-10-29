@@ -19,7 +19,7 @@ public class TestCase {
         System.out.println("===============");
         for (int i = 0; i < 10; i++) {
             int number = random.nextInt(100);
-            tree.insert0(number);
+            tree.add(number);
         }
         tree.travel();
 
