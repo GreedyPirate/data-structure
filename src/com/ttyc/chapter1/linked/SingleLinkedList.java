@@ -301,4 +301,16 @@ public class SingleLinkedList<E> {
         slow.next = slow.next.next;
         return (E) head.next.e;
     }
+
+    public boolean remove(E e){
+        remove(head, e);
+        return true;
+    }
+
+    public Node<E> remove(Node<E> node, E e){
+        if(node.e.equals(e)) {
+
+        }
+        return node.next;
+    }
 }

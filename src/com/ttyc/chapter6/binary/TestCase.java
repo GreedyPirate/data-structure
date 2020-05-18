@@ -7,7 +7,7 @@ public class TestCase {
         Random random = new Random();
         BinarySearchTree tree = new BinarySearchTree();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             int number = random.nextInt(100);
             tree.insert(number);
         }
@@ -23,5 +23,13 @@ public class TestCase {
         }
         tree.travel();
 
+        System.out.println("===============");
+        tree.travelUnrecursion();
+
+        System.out.println("===============");
+        tree.travelLevel();
+
+        System.out.println("min is " + tree.min());
+        System.out.println("min is " + tree.min0());
     }
 }

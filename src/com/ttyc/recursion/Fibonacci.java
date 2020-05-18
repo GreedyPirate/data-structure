@@ -15,6 +15,9 @@ public class Fibonacci {
         }
     }
 
+    /**
+     * 函数功能：前一个的值+前2个的值
+     */
     public static int reduce(int n) {
         if (n == 0 || n == 1) {
             return 1;

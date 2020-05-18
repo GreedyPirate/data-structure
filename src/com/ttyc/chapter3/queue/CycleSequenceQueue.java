@@ -16,6 +16,8 @@ public class CycleSequenceQueue<T> {
      */
     private int front, rear;
 
+    private int size;
+
     private static final int DEFAULT_CAPACITY = 15;
 
     public CycleSequenceQueue() {
@@ -34,6 +36,7 @@ public class CycleSequenceQueue<T> {
         elements[rear] = t;
 
         rear = (rear + 1) % elements.length;
+        size++;
     }
 
     public T poll() {
@@ -42,7 +45,12 @@ public class CycleSequenceQueue<T> {
         }
         T t = (T) elements[front];
         front = (front + 1) % elements.length;
+        size--;
         return t;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     @Override
