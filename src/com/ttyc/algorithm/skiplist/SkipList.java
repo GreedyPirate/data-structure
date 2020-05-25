@@ -1,4 +1,4 @@
-package com.ttyc.algorithm;
+package com.ttyc.algorithm.skiplist;
 
 import java.util.Random;
 
